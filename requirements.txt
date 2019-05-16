@@ -1,0 +1,8 @@
+Click==7.0
+entrypoints==0.3
+flake8==3.7.7
+mccabe==0.6.1
+pycodestyle==2.5.0
+pyflakes==2.1.1
+regex==2019.4.14
+yapf==0.27.0
