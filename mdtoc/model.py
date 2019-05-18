@@ -82,7 +82,14 @@ class MdToc(object):
 
     @staticmethod
     def create_directory(node: HeadNode):
+        directory = []
+        # 生成当前节点到锚点
+        temp = "*" * abs(node.level) + " [" + node.content + "]" + "(" + "#" * abs(node.level) + node.content + ")\n\n"
+        directory.append(temp)
+        for n in node.children:
+            directory += MdToc.create_directory(n)
+        return directory
+
+    @staticmethod
+    def write_into_file(filepath):
         pass
-
-
-

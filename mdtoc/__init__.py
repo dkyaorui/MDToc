@@ -45,5 +45,9 @@ def start(file: str):
                                 father = MdToc.get_father_node(node, now_node)
                                 HeadNode.add_child(node, father)
                         now_node = node
+        # 生成目录信息
+        directory = []
         for i in head_list:
-            MdToc.print_node_tree(i)
+            directory += MdToc.create_directory(i)
+
+        # 写入文件
