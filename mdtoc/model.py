@@ -7,7 +7,7 @@ class HeadNode(object):
     def __init__(self, level: int, content: str, father=None):
         """
         H1-H6 标签节点
-        :param level: 节点的登记，1=》H1····
+        :param level: 节点的登记，1=>H1····
         :param content: 标题内容
         :return: None
         """
