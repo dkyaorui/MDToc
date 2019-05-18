@@ -87,7 +87,7 @@ class MdToc(object):
         directory = []
         # 生成当前节点到锚点
         temp = " " * abs(node.level + 1) * 2 + \
-               "* [" + node.content.replace(' ', 'test.md') + "]" + \
+               "* [" + node.content.replace(' ', '') + "]" + \
                "(#" + node.content + ")\n\n"
         directory.append(temp)
         for n in node.children:
