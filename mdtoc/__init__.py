@@ -42,8 +42,8 @@ def start(file: str):
                                 # 如果节点等级小于当前节点，将其变为孩子
                                 HeadNode.add_child(node, now_node)
                             else:
-                                father = HeadNode.get_father_node(node, now_node)
+                                father = MdToc.get_father_node(node, now_node)
                                 HeadNode.add_child(node, father)
                         now_node = node
         for i in head_list:
-            HeadNode.print_node_tree(i)
+            MdToc.print_node_tree(i)
