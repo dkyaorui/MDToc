@@ -51,3 +51,4 @@ def start(file: str):
             directory += MdToc.create_directory(i)
 
         # 写入文件
+        MdToc.write_into_file(directory, file_name)

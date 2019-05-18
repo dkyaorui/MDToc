@@ -1,4 +1,6 @@
 import regex as re
+import random
+import os
 
 
 class HeadNode(object):
@@ -15,7 +17,7 @@ class HeadNode(object):
         self.children = list()
 
     @staticmethod
-    def add_child(node, target_node):
+    def add_child(node, target_node) -> bool:
         """
         在 self.children 中添加子节点
         :param node: Node，标签节点
@@ -36,14 +38,14 @@ class MdToc(object):
         self.head_info = config["constant"].get("HEAD")
 
     @staticmethod
-    def get_filepath_and_filename(file_info: str):
+    def get_filepath_and_filename(file_info: str) -> list:
         """获取文本路径信息"""
         file_info_data = file_info.split('/')
         file_name = file_info_data[-1]
         file_path = "/".join(file_info_data[:-1])
-        return file_path, file_name
+        return [file_path, file_name]
 
-    def process_line(self, line: str):
+    def process_line(self, line: str) -> list:
         """处理读取的一行内容"""
         for h, v in self.HEAD.items():
             m = re.search(v, line)
@@ -52,21 +54,21 @@ class MdToc(object):
             return m.group(0).split(" ", 1)
         return []
 
-    def get_level(self, tag: str):
+    def get_level(self, tag: str) -> int:
         for h, val in self.head_info.items():
             if tag == val["content"]:
                 return val["level"]
-        return None
+        return 0
 
     @staticmethod
-    def print_node_tree(node: HeadNode):
+    def print_node_tree(node: HeadNode) -> None:
         """打印当前节点下的所有子节点"""
         print("-" * abs(node.level), node.content)
         for i in node.children:
             MdToc.print_node_tree(i)
 
     @staticmethod
-    def get_father_node(node: HeadNode, target_node: HeadNode):
+    def get_father_node(node: HeadNode, target_node: HeadNode) -> HeadNode:
         """
         找到 node 的父亲
         :param node: 没有父亲的节点
@@ -81,15 +83,26 @@ class MdToc(object):
             return MdToc.get_father_node(node, target_node.father)
 
     @staticmethod
-    def create_directory(node: HeadNode):
+    def create_directory(node: HeadNode) -> list:
         directory = []
         # 生成当前节点到锚点
-        temp = "*" * abs(node.level) + " [" + node.content + "]" + "(" + "#" * abs(node.level) + node.content + ")\n\n"
+        temp = " " * abs(node.level + 1) * 2 + \
+               "* [" + node.content + "]" + \
+               "(" + "#" * abs(node.level) + node.content + ")\n\n"
         directory.append(temp)
         for n in node.children:
             directory += MdToc.create_directory(n)
         return directory
 
     @staticmethod
-    def write_into_file(filepath):
-        pass
+    def write_into_file(directory, file, out_file=None) -> str:
+        temp_file = str(random.random())+".md"
+        with open(temp_file, "a") as _out, open(file, "r") as _in:
+            for i in directory:
+                _out.write(i)
+            for i in _in.readlines():
+                _out.write(i)
+        os.remove(file)
+        os.rename(temp_file, file)
+
+        return out_file
