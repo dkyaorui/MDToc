@@ -5,11 +5,13 @@ import click
 
 @click.command()
 @click.option("--file", default=None, help="The path of target *.md file.")
-def start(file: str):
+@click.option("--output", default=None, help="The path of output file")
+def start(file: str, output: str):
     """
     开始处理 markdown 文件
     Start process the markdown file
     :param file: 文件完整路径或相对路径 the path of markdown file
+    :param output: 输出文件完整路径
     :return: 处理结果 the result of process
     """
     if file is None:
@@ -19,8 +21,6 @@ def start(file: str):
         # 存放 H1 节点信息
         head_list = list()
         now_node = None
-        file_path, file_name = toc.get_filepath_and_filename(file)
-        print(file_path, file_name)
         with open(file, "r") as f:
             for line in f.readlines():
                 res = toc.process_line(line)
@@ -51,4 +51,5 @@ def start(file: str):
             directory += MdToc.create_directory(i)
 
         # 写入文件
-        MdToc.write_into_file(directory, file_name)
+        out = MdToc.write_into_file(directory, file, output)
+        print("*[success] ->", out)

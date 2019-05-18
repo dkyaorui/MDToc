@@ -37,14 +37,6 @@ class MdToc(object):
         self.HEAD = config["pattern"].get("HEAD")
         self.head_info = config["constant"].get("HEAD")
 
-    @staticmethod
-    def get_filepath_and_filename(file_info: str) -> list:
-        """获取文本路径信息"""
-        file_info_data = file_info.split('/')
-        file_name = file_info_data[-1]
-        file_path = "/".join(file_info_data[:-1])
-        return [file_path, file_name]
-
     def process_line(self, line: str) -> list:
         """处理读取的一行内容"""
         for h, v in self.HEAD.items():
@@ -96,12 +88,31 @@ class MdToc(object):
 
     @staticmethod
     def write_into_file(directory, file, out_file=None) -> str:
-        temp_file = str(random.random())+".md"
+        """
+        生成目标文件
+        :param directory: 目录信息
+        :param file: 源文件完整路径
+        :param out_file: 目标文件完整路径
+        :return: 结果文件完整路径
+        """
+        temp_file = str(random.random()) + ".md"
         with open(temp_file, "a") as _out, open(file, "r") as _in:
+            # 获取H1
+            while True:
+                line = _in.readline()
+                if re.search(r"^#{1}\s.*", line):
+                    break
+            # 写入 H1 和 目录（H2）
+            _out.write(line + '\n')
+            _out.write("#" * 2 + " " + "目录\n\n")
             for i in directory:
                 _out.write(i)
             for i in _in.readlines():
                 _out.write(i)
-        os.remove(file)
-        os.rename(temp_file, file)
-        return out_file
+        if out_file is None:
+            os.remove(file)
+            os.rename(temp_file, file)
+            return file
+        else:
+            os.rename(temp_file, out_file)
+            return out_file
