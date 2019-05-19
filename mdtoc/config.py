@@ -1,4 +1,6 @@
 config = {
+    # md 语法规则
+    "type": "github",
     # 正则规则
     "pattern": {
         "HEAD": {

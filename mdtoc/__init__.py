@@ -4,16 +4,17 @@ import click
 
 
 @click.command()
-@click.option("--file", default=None, help="The path of target *.md file.")
-@click.option("--output", default=None, help="The path of output file")
-def start(file: str, output: str):
+@click.argument("file")
+@click.option("-o", default=None, help="The path of output file")
+def start(file: str, o: str):
     """
     开始处理 markdown 文件
     Start process the markdown file
     :param file: 文件完整路径或相对路径 the path of markdown file
-    :param output: 输出文件完整路径
+    :param o: 输出文件完整路径
     :return: 处理结果 the result of process
     """
+    output = o
     if file is None:
         click.echo("Please use --help option read doc.")
     else:
@@ -21,6 +22,7 @@ def start(file: str, output: str):
         # 存放 H1 节点信息
         head_list = list()
         now_node = None
+        toc.rebuild_head(file)
         with open(file, "r") as f:
             for line in f.readlines():
                 res = toc.process_line(line)
