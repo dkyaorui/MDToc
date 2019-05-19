@@ -22,6 +22,7 @@ def start(file: str, o: str):
         # 存放 H1 节点信息
         head_list = list()
         now_node = None
+        toc.rebuild_head(file)
         with open(file, "r") as f:
             for line in f.readlines():
                 res = toc.process_line(line)
