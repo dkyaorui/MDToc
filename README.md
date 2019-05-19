@@ -1,6 +1,6 @@
 # MDToc
 
-![python](https://img.shields.io/badge/python-3.7-blue.svg)![regex](https://img.shields.io/badge/regex-2019.4.14-red.svg)![click](https://img.shields.io/badge/click-7.0-green.svg)![release](https://img.shields.io/badge/release-v0.1.2-orange.svg)
+![python](https://img.shields.io/badge/python-3.7-blue.svg) ![regex](https://img.shields.io/badge/regex-2019.4.14-red.svg) ![click](https://img.shields.io/badge/click-7.0-green.svg) ![release](https://img.shields.io/badge/release-v0.1.2-orange.svg)
 
 
 ## Release
